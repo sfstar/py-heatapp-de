@@ -1,14 +1,14 @@
 from distutils.core import setup
 setup(
-  name = 'py-heatapp-de',         # How you named your package folder (MyLib)
-  packages = ['py-heatapp-de'],   # Chose the same as "name"
-  version = '0.0.1',      # Start with a small number and increase it with every change you make
+  name = 'py-heatapp-de',
+  packages = ['py-heatapp-de'],
+  version = '0.0.1',
   license='MIT',
   description = 'HeatApp local api integration library',
   author = 'Sven ten Raa',
   author_email = 'sventenraa@gmail.com',
   url = 'https://github.com/sfstar/py-heatapp-de',
-  download_url = 'https://github.com/user/reponame/archive/v_01.tar.gz',    # I explain this later on
+  download_url = 'https://github.com/sfstar/py-heatapp-de/archive/v0.0.1-alpha.tar.gz',
   keywords = ['heatapp', 'api', 'integration'],
   install_requires=[            
           'pycryptodome',
