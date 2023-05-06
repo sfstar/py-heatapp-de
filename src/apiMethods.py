@@ -13,7 +13,7 @@ class ApiMethods():
         self.credentials=credentials
 
     def _getCorrectUser(self, data, username):
-        return None    
+        return None
 
     def setTemp(self, inputtemperature, roomId):
         dataObject = DefaultApiParams(userId=self.credentials.userId, udid=self.credentials.deviceId);
@@ -23,7 +23,7 @@ class ApiMethods():
         ApiRequest().request(self.base_url + '/api/room/settemperature', self.credentials, dataObject)
 
     def getRawRooms(self):
-        return ApiRequest().request(self.base_url + '/api/room/list', self.credentials, DefaultApiParams(userId=self.credentials.userId, udid=self.credentials.deviceId))       
+        return ApiRequest().request(self.base_url + '/api/room/list', self.credentials, DefaultApiParams(userId=self.credentials.userId, udid=self.credentials.deviceId))
 
     def getRoomsList(self):
         rawRooms = self.getRawRooms()
@@ -41,9 +41,9 @@ class ApiMethods():
                 return rooms[i]
 
     def getWeather(self):
-        return ApiRequest().request(self.base_url + '/api/weather', self.credentials, DefaultApiParams(userId=self.credentials.userId, udid=self.credentials.deviceId)) 
+        return ApiRequest().request(self.base_url + '/api/weather', self.credentials, DefaultApiParams(userId=self.credentials.userId, udid=self.credentials.deviceId))
 
-    def getScene(self): 
+    def getScene(self):
         return ApiRequest().request(self.base_url + '/api/scene/status', self.credentials, DefaultApiParams(userId=self.credentials.userId, udid=self.credentials.deviceId))
 
     def getSpecficScene(self, scene):
@@ -66,7 +66,7 @@ class ApiMethods():
         dataObject.scene = scene
         result = ApiRequest().request(self.base_url + '/api/scene/duration', self.credentials, dataObject)
         return result["duration"]
-    
+
     def setSceneRooms(self, scene, rooms):
         roomsString = "["
         for i in range(len(rooms)):
@@ -100,3 +100,32 @@ class ApiMethods():
 
     def getUsersList(self):
         return ApiRequest().request(self.base_url + '/api/user/list', self.credentials, DefaultApiParams(userId=self.credentials.userId, udid=self.credentials.deviceId))
+
+    def getWizard(self):
+        '''
+        Wizard (Profi / Admin Panel) requires admin rights
+        First level. Lower level use getServercode
+        '''
+        return (
+            ApiRequest()
+            .request(
+                self.base_url + '/api/wizard/start',
+                self.credentials,
+                DefaultApiParams(userId=self.credentials.userId,
+                                 udid=self.credentials.deviceId)
+            )
+            ['heatcom']
+        )
+
+    def getServercode(self, servercode):
+        '''
+        Wizard (Profi / Admin Panel) requires admin rights
+        Deeper level. requires Servercode obtained from getWizard
+        '''
+        dataObject = DefaultApiParams(
+            userId=self.credentials.userId, udid=self.credentials.deviceId)
+        dataObject.servercode = servercode
+
+        result = ApiRequest().request(self.base_url + '/api/wizard/next',
+                                      self.credentials, dataObject)
+        return result
